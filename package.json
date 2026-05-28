@@ -1,4 +1,22 @@
 {
+  "name": "error-404-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/41M3Dev/error-404-api#readme",
+  "bugs": {
+    "url": "https://github.com/41M3Dev/error-404-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/41M3Dev/error-404-api.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "express": "^5.2.1"
   }
