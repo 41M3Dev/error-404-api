@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("users", (table) => {
-        table.increments ("id", 50).primary();
+        table.increments ("id").primary();
         table.string("username").notNullable().unique();
         table.string("last_name",100).notNullable();
         table.string("first_name",100).notNullable();
@@ -15,7 +15,7 @@ exports.up = function(knex) {
         table.boolean("is_active").notNullable().defaultTo(true);
         table.integer("promos_id").unsigned();
         table.foreign("promos_id").references("id").inTable("promos");
-        table.timestamp(true, true);
+        table.timestamps(true, true);
     })
 };
 
