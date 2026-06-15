@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.integer("user_id").unsigned().notNullable().unique();
         table.foreign("user_id").references("id").inTable("users");
         table.string("full_name", 150).notNullable();
-        table.enum("position", ["president", "assistant", "membre"]).notNullable().defaultTo("membre");
+        table.enum("position", ["president", "vice_president", "tresorier", "secretaire", "responsable_evenementiel", "responsable_communication", "membre"]).notNullable().defaultTo("membre");
         table.text("description");
         table.text("image_url");
         table.integer("display_order").notNullable().defaultTo(0);

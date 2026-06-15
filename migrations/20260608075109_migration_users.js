@@ -11,7 +11,7 @@ exports.up = function(knex) {
         table.string("email", 150).notNullable().unique();
         table.string("password_hash", 255).notNullable();
         table.date("birth_date").notNullable();
-        table.enum("role", ["bde", "prof", "administration", "student"]).notNullable().defaultTo("student");
+        table.enum("role", ["administration", "president", "vice_president", "tresorier", "secretaire", "membre_bde", "etudiant", "stagiaire"]).notNullable().defaultTo("etudiant");
         table.boolean("is_active").notNullable().defaultTo(true);
         table.integer("promo_id").unsigned();
         table.foreign("promo_id").references("id").inTable("promos");

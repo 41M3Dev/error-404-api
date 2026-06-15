@@ -9,7 +9,7 @@ exports.up = function(knex) {
         table.string("slug", 180).notNullable().unique();
         table.text("content");
         table.text("image_url");
-        table.enum("status", ["draft", "published", "archived"]).notNullable().defaultTo("draft");
+        table.enum("status", ["brouillon", "publie"]).notNullable().defaultTo("brouillon");
         table.integer("author_id").unsigned().notNullable();
         table.foreign("author_id").references("id").inTable("users");
         table.dateTime("published_at");
