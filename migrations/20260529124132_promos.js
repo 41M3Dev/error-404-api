@@ -4,11 +4,11 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("promos", (table) => {
-        table.increments('id').primary();
-        table.string("name").notNullable();
-        table.tinyint("is_active").notNullable().defaultTo(1);
+        table.increments("id").primary();
+        table.string("name", 50).notNullable().unique();
+        table.boolean("is_active").notNullable().defaultTo(true);
         table.timestamps(true, true);
-    })
+    });
 };
 
 /**
