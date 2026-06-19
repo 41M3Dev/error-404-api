@@ -6,7 +6,7 @@ exports.up = function(knex) {
     return knex.schema.createTable("bde_members", (table) => {
         table.increments("id").primary();
         table.integer("user_id").unsigned();
-        table.foreign("user_id").references("id").inTable("users").onDelete("SETT NULL");
+        table.foreign("user_id").references("id").inTable("users").onDelete("SET NULL");
         table.string("full_name", 150).notNullable();
         table.enum("position", ["president", "vice_president", "tresorier", "secretaire", "responsable_evenementiel", "responsable_communication", "membre"]).notNullable().defaultTo("membre");
         table.text("description");

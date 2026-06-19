@@ -11,12 +11,11 @@ exports.up = function(knex) {
         table.string("alt_text", 255);
         table.dateTime("created_at").notNullable().defaultTo(knex.fn.now());
     })
-
-    /**
-     * @param { import("knex").Knex } knex
-     * @returns { Promise<void> }
-     */
-    exports.down = function (knex) {
-        return knex.schema.dropTableIfExists("gallery_images");
-    };
 }
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.down = function (knex) {
+    return knex.schema.dropTableIfExists("gallery_images");
+};

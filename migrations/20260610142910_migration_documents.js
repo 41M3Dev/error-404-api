@@ -19,7 +19,7 @@ exports.up = function(knex) {
         table.text("receiver_address");
         table.text("details");
         table.integer("created_by").unsigned();
-        table.foreign("created_by").references("id").inTable("users").onDelete("SETT NULL");
+        table.foreign("created_by").references("id").inTable("users").onDelete("SET NULL");
         table.timestamps(true, true);
     });
 };

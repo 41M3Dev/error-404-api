@@ -11,7 +11,7 @@ exports.up = function(knex) {
         table.text("image_url");
         table.enum("status", ["brouillon", "publie"]).notNullable().defaultTo("brouillon");
         table.integer("author_id").unsigned();
-        table.foreign("author_id").references("id").inTable("users").onDelete("SETT NULL");
+        table.foreign("author_id").references("id").inTable("users").onDelete("SET NULL");
         table.dateTime("published_at");
         table.timestamps(true, true);
     });

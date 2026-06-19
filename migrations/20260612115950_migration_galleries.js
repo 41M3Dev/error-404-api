@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.string("title", 150).notNullable();
         table.text("description");
         table.integer("event_id").unsigned();
-        table.foreign("event_id").references("id").inTable("events").onDelete("SETT NULL");
+        table.foreign("event_id").references("id").inTable("events").onDelete("SET NULL");
         table.timestamps(true, true);
     });
 };
