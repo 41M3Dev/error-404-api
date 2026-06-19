@@ -13,7 +13,7 @@ exports.up = function(knex){
         table.integer("max_participants");
         table.dateTime("start_datetime").notNullable();
         table.dateTime("end_datetime").notNullable();
-        table.dateTime("registration_deadline");
+        table.dateTime("registration_deadline").notNullable();
         table.text("image_url");
         table.enum("status", ["brouillon", "publie", "ferme", "annule"]).notNullable().defaultTo("brouillon");
         table.integer("created_by").unsigned().notNullable();

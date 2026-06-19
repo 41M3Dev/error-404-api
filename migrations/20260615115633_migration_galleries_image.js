@@ -9,14 +9,14 @@ exports.up = function(knex) {
         table.foreign("gallery_id").references("id").inTable("galleries");
         table.text("image_url").notNullable();
         table.string("alt_text", 255);
-        table.timestamps(true, true);
-    });
-};
+        table.dateTime("created_at").notNullable().defaultTo(knex.fn.now());
+    })
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = function(knex) {
-    return knex.schema.dropTableIfExists("gallery_images");
-};
+    /**
+     * @param { import("knex").Knex } knex
+     * @returns { Promise<void> }
+     */
+    exports.down = function (knex) {
+        return knex.schema.dropTableIfExists("gallery_images");
+    };
+}

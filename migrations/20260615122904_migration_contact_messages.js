@@ -10,7 +10,7 @@ exports.up = function(knex) {
         table.string("subject", 150);
         table.text("message").notNullable();
         table.enum("status", ["nouveau", "lu", "repondu"]).notNullable().defaultTo("nouveau");
-        table.timestamps(true, true);
+        table.dateTime("created_at").notNullable().defaultTo(knex.fn.now());
     });
 };
 

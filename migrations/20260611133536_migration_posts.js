@@ -7,11 +7,11 @@ exports.up = function(knex) {
         table.increments("id").primary();
         table.string("title", 150).notNullable();
         table.string("slug", 180).notNullable().unique();
-        table.text("content");
+        table.text("content").notNullable();
         table.text("image_url");
         table.enum("status", ["brouillon", "publie"]).notNullable().defaultTo("brouillon");
-        table.integer("author_id").unsigned().notNullable();
-        table.foreign("author_id").references("id").inTable("users");
+        table.integer("author_id").unsigned();
+        table.foreign("author_id").references("id").inTable("users").onDelete("SETT NULL");
         table.dateTime("published_at");
         table.timestamps(true, true);
     });
