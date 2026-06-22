@@ -21,11 +21,51 @@ exports.createPromo = async (req, res) => {
             name: name
         })
         return res.status(201).json({
-            message: "Promotion créer avec succès !",
+            message: "Promotion créee avec succès !",
             id: newPromoId
         })
     } catch (error) {
         console.error("Erreur lors de la création de la promo :", error);
         return res.status(500).json({message: "Erreur lors de la création de la promotion"});
+    }
+}
+
+exports.updatePromo = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {name, is_active} = req.body;
+        const promoExist = await db("promos").where({id: id}).first();
+
+        if (!promoExist) {
+            return res.status(404).json({message: "Impossible de modifier : cette promotion n'existe pas."});
+        }
+
+        await db("promos").where({id: id}).update({
+            name: name,
+            is_active: is_active
+        });
+        return res.status(200).json({message: "Promotion mise à jour avec succès !"});
+
+    } catch (error) {
+        console.error("Erreur lors de la modification de la promo :", error);
+        return res.status(500).json({message: "Erreur lors de la modification de la promotion."});
+    }
+}
+
+exports.deletePromo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const promoExist = await db("promos").where({ id: id }).first();
+        
+        if (!promoExist) {
+            return res.status(404).json({ message: "Impossible de supprimer : cette promotion n'existe pas." });
+        }
+        
+        await db("promos").where({ id: id }).del();
+        return res.status(200).json({ message: "Promotion supprimer avec succès !" });
+        
+    } catch (error) {
+        console.error("Errur lors de la suppression de la promo :", error);
+        return res.status(500).json({ message: "Erreur lors de la suppression de la promotion."});
     }
 }
