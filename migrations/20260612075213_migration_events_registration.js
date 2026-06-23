@@ -10,7 +10,7 @@ exports.up = function(knex) {
         table.foreign("user_id").references("id").inTable("users");
         table.foreign("event_id").references("id").inTable("events");
         table.unique(["user_id", "event_id"]);
-        table.enum("status", ["pending", "confirmed", "cancelled"]).notNullable().defaultTo("pending");
+        table.enum("status", ["en_attente", "confirmee", "annulee"]).notNullable().defaultTo("en_attente");
         table.dateTime("registered_at").notNullable().defaultTo(knex.fn.now());
         table.timestamps(true, true);
     });
