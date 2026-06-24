@@ -105,3 +105,18 @@ exports.login = async (req, res) => {
         return res.status(500).json({ message: "Erreur interne lors de la connexion."});
     }
 };
+
+exports.getProfile = async (req, res) => {
+    try {
+        const currentUserId = req.user.id;
+        const user = await db("users")
+            .where({ id: currentUserId })
+            .select("id", "username", "first_name", "last_name", "email", "role", "created_at")
+            .first();
+        return res.status(200).json(user);
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération de mon profil :", error);
+        return res.status(500).json({ message: "Erreur lors de la récupération du profil." });
+    }
+};
