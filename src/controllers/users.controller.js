@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const SALT_ROUNDS = 10;
 
 exports.register = async (req, res) => {
@@ -73,5 +74,34 @@ exports.getUserById = async (req, res) => {
     } catch (error) {
         console.error("Erreur lors de la récupération du profil :", error);
         return res.status(500).json({ message: "Erreur lors de la récupération du profil" });
+    }
+};
+
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if(!email || !password) {
+            return res.status(400).json({ message: "L'email est le mot de pass sont obligatoire."});
+        }
+        
+        const user = await db("users").where({ email: email }).first();
+        if (!user) {
+            return res.status(401).json({ message: "Identifiant invalide." });
+        }
+        
+        const token = jwt.sign(
+            { id: user.id, role: user.role },
+            process.env.JWT_SECRET, //aller dans .env
+            { expiresIn: "24h" }
+        );
+        
+        return res.status(200).json({
+            message: "Connexion réussi !",
+            token: token
+        });
+        
+    } catch (error) {
+        console.error("Erreur lors de la connexion :", error);
+        return res.status(500).json({ message: "Erreur interne lors de la connexion."});
     }
 };
