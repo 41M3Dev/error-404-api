@@ -120,3 +120,52 @@ exports.getProfile = async (req, res) => {
         return res.status(500).json({ message: "Erreur lors de la récupération du profil." });
     }
 };
+
+exports.updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const currentUserId = req.user.id;
+        if (parseInt(id) !== currentUserId) {
+            return res.status(403).json({ message: "Action interdite : vous ne pouvez modifier que votre propre profil." });
+        }
+
+        const { first_name, last_name } = req.body;
+        const userExist = await db("users").where({ id: id}).first();
+        if (!userExist) {
+            return res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+
+        await db ("users").where({ id: id }).update({
+            first_name: first_name,
+            last_name: last_name
+        });
+
+        return res.status(200).json({ message: "Profil mis a jour avec succès !" });
+
+    } catch (error) {
+        console.error("Erreur lors de la modification :", error);
+        return res.status(500).json({ message: "Erreur lors de la modification du profil." });
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const currentUserId = req.user.id;
+        if (parseInt(id) !== currentUserId) {
+            return res.status(403).json({ message: "Action interdite : vous ne pouvez supprimer que votre propre compte."});
+        }
+
+        const userExist = await db("users").where({ id: id }).first();
+        if (!userExist) {
+            return res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+
+        await db("users").where({ id: id }).del();
+        return res.status(200).json({ message: "Compte supprimé avec succès !" });
+
+    } catch (error) {
+        console.error("Erreur lors de la suppression :", error);
+        return res.status(500).json({ message: "Erreur lors de la suppression du compte. "});
+    }
+};
