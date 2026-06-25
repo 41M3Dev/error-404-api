@@ -129,13 +129,14 @@ exports.updateUser = async (req, res) => {
             return res.status(403).json({ message: "Action interdite : vous ne pouvez modifier que votre propre profil." });
         }
 
-        const { first_name, last_name } = req.body;
+        const { username, first_name, last_name } = req.body;
         const userExist = await db("users").where({ id: id}).first();
         if (!userExist) {
             return res.status(404).json({ message: "Utilisateur introuvable." });
         }
 
         await db ("users").where({ id: id }).update({
+            username: username,
             first_name: first_name,
             last_name: last_name
         });

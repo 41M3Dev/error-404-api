@@ -9,7 +9,7 @@ router.get("/", authMiddleware.verifyToken, usersController.getAllUsers);
 router.get("/me", authMiddleware.verifyToken,usersController.getProfile);
 router.get("/:id", usersController.getUserById);
 
-router.put("/id",authMiddleware.verifyToken, usersController.updateUser);
+router.put("/:id",authMiddleware.verifyToken, usersController.updateUser);
 router.delete("/:id", authMiddleware.verifyToken, usersController.deleteUser);
 
 
