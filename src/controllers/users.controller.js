@@ -88,7 +88,12 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(401).json({ message: "Identifiant invalide." });
         }
-        
+
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Identifiants invalide." });
+        }
+
         const token = jwt.sign(
             { id: user.id, role: user.role },
             process.env.JWT_SECRET, //aller dans .env
@@ -168,5 +173,31 @@ exports.deleteUser = async (req, res) => {
     } catch (error) {
         console.error("Erreur lors de la suppression :", error);
         return res.status(500).json({ message: "Erreur lors de la suppression du compte. "});
+    }
+};
+
+exports.updateRole = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+        const validRoles = [ "president", "vice_president", "tresorier", "secretaire", "responsable_evenementiel", "responsable_communication", "membre"];
+        if (!role || !validRoles.includes(role)) {
+            return res.status(400).json({ message : "Rôle invalide. Les rôles accepté sont : " + validRoles.join(", ") });
+        }
+
+        const userExist = await db("users").where({ id: id }).first();
+        if(!userExist) {
+            return res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+
+        await db("users").where({ id: id }).update({
+            role: role
+        });
+
+        return res.status(200).json({ message: `le rôle de l'utilisateur a été mis à jour avec succès en tant que : ${role}.` });
+
+    } catch (error) {
+        console.error("Erreur lors de la modification du rôle :", error);
+        return res.status(500).json({ message: "Erreur interne lors de la modfication du rôle." });
     }
 };

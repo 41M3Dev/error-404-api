@@ -17,3 +17,10 @@ exports.verifyToken = (req, res, next) => {
         return res.status(403).json({message: "Badge invalide ou expiré. Veuillez vous reconnecter."});
     }
 };
+exports.isPresident = (req, res, next) => {
+    if (req.user.role !== "president") {
+        return res.status(403).json({message: "Accès refusé : Cette action est strictement réservée à la présidence du BDE."});
+    }
+
+    next();
+};
