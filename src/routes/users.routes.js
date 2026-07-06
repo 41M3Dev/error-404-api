@@ -10,6 +10,6 @@ router.get("/me", authMiddleware.verifyToken,usersController.getProfile);
 router.get("/:id", usersController.getUserById);
 router.put("/:id",authMiddleware.verifyToken, usersController.updateUser);
 router.delete("/:id", authMiddleware.verifyToken, usersController.deleteUser);
-router.put("/:id/role", authMiddleware.verifuToken, authMiddleware.isPresident, usersController.updateRole);
+router.put("/:id/role", authMiddleware.verifyToken, authMiddleware.isPresident, usersController.updateRole);
 
 module.exports = router

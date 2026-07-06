@@ -18,9 +18,20 @@ exports.verifyToken = (req, res, next) => {
     }
 };
 exports.isPresident = (req, res, next) => {
-    if (req.user.role !== "president") {
+    if (req.user.bde_role !== "president") {
         return res.status(403).json({message: "Accès refusé : Cette action est strictement réservée à la présidence du BDE."});
     }
 
     next();
 };
+
+exports.canManageEvents = (req, res, next) => {
+    const allowedRoles = ["president", "responsable_evenementiel"];
+    if (!allowedRoles.includes(req.user.bde_role)) {
+        return res.status(403).json({
+            message: "Accès refusé : Cette action est réservée à la présidence ou au pôle événementiel."
+        });
+    }
+    
+    next();
+}
