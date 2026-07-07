@@ -56,16 +56,16 @@ exports.deletePromo = async (req, res) => {
     try {
         const { id } = req.params;
         const promoExist = await db("promos").where({ id: id }).first();
-        
+
         if (!promoExist) {
             return res.status(404).json({ message: "Impossible de supprimer : cette promotion n'existe pas." });
         }
         
-        await db("promos").where({ id: id }).del();
-        return res.status(200).json({ message: "Promotion supprimer avec succès !" });
-        
+        await db("promos").where({ id: id }).update({ is_active: 0 });
+        return res.status(200).json({ message: "Promotion supprimée avec succès !" });
+
     } catch (error) {
-        console.error("Errur lors de la suppression de la promo :", error);
-        return res.status(500).json({ message: "Erreur lors de la suppression de la promotion."});
+        console.error("Erreur lors de la suppression de la promo :", error);
+        return res.status(500).json({ message: "Erreur interne lors de la suppression de la promotion."});
     }
 }

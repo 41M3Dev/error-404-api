@@ -3,6 +3,7 @@ const db = require("../config/db");
 exports.getAllEvents = async (req,res) => {
     try {
         const events = await db("events")
+            .where({ status: "published" })
             .select(
                 "id",
                 "title",
@@ -13,10 +14,10 @@ exports.getAllEvents = async (req,res) => {
                 "status"
             )
             .orderBy("start_datetime", "asc");
-        
+
         return res.status(200).json(events);
-    }catch (error) {
-        console.error("Erreur lors de la récupératiomn des événements :", error);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des événements :", error);
         return res.status(500).json({ message: "Erreur serveur lors de la récupération des événements."});
     }
 };
@@ -25,7 +26,7 @@ exports.createEvent = async (req, res) => {
         try {
             const {title, description, place, price, max_participants, start_datetime, end_datetime} = req.body;
             if (!title || !start_datetime) {
-                return res.status(400).json({message: "Le tire et la date de début sont obligatoires."});
+                return res.status(400).json({message: "Le titre et la date de début sont obligatoires."});
             }
             const creatorId = req.user.id;
             const [newEventId] = await db("events").insert({

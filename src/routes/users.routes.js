@@ -7,7 +7,7 @@ router.post("/register", usersController.register);
 router.post("/login", usersController.login);
 router.get("/", authMiddleware.verifyToken, usersController.getAllUsers);
 router.get("/me", authMiddleware.verifyToken,usersController.getProfile);
-router.get("/:id", usersController.getUserById);
+router.get("/:id", authMiddleware.verifyToken, usersController.getUserById);
 router.put("/:id",authMiddleware.verifyToken, usersController.updateUser);
 router.delete("/:id", authMiddleware.verifyToken, usersController.deleteUser);
 router.put("/:id/role", authMiddleware.verifyToken, authMiddleware.isPresident, usersController.updateRole);
