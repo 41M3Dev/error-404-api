@@ -3,14 +3,14 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable("events_registrations", (table) => {
+    return knex.schema.createTable("event_registrations", (table) => {
         table.increments("id").primary();
         table.integer("user_id").unsigned().notNullable();
         table.integer("event_id").unsigned().notNullable();
-        table.foreign("user_id").references("id").inTable("users");
-        table.foreign("event_id").references("id").inTable("events");
+        table.foreign("user_id").references("id").inTable("users").onDelete("CASCADE");
+        table.foreign("event_id").references("id").inTable("events").onDelete("CASCADE");
         table.unique(["user_id", "event_id"]);
-        table.enum("status", ["en_attente", "confirmee", "annulee"]).notNullable().defaultTo("en_attente");
+        table.enum("status", ["pending", "confirmed", "cancelled"]).notNullable().defaultTo("pending");
         table.dateTime("registered_at").notNullable().defaultTo(knex.fn.now());
         table.dateTime("created_at").notNullable().defaultTo(knex.fn.now());
     });
@@ -21,5 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists("events_registrations");
+    return knex.schema.dropTableIfExists("event_registrations");
 };
