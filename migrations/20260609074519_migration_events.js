@@ -15,9 +15,9 @@ exports.up = function(knex){
         table.dateTime("end_datetime").notNullable();
         table.dateTime("registration_deadline").notNullable();
         table.text("image_url");
-        table.enum("status", ["brouillon", "publie", "ferme", "annule"]).notNullable().defaultTo("brouillon");
+        table.enum("status", ["draft", "published", "closed", "cancelled"]).notNullable().defaultTo("draft");
         table.integer("created_by").unsigned().notNullable();
-        table.foreign("created_by").references("id").inTable("users");
+        table.foreign("created_by").references("id").inTable("users").onDelete("CASCADE");
         table.timestamps(true, true);
     });
 };

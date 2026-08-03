@@ -26,6 +26,12 @@ exports.isPresident = (req, res, next) => {
 };
 
 exports.canManageEvents = (req, res, next) => {
+    if (!req.user || !req.user.role) {
+        return res.status(401).json({ message: "Utilisateur non identifié ou rôle introuvable dans le token." });
+    }
+    if (req.user.role === "administrateur") {
+        return next();
+    }
     const allowedRoles = ["president", "responsable_evenementiel"];
     if (!allowedRoles.includes(req.user.bde_role)) {
         return res.status(403).json({
