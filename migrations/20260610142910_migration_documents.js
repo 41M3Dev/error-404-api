@@ -5,7 +5,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable("documents", (table) => {
         table.increments("id").primary();
-        table.enum("type", ["devis", "facture"]).notNullable();
+        table.enum("type", ["quote", "invoice"]).notNullable();
         table.string("number", 50).notNullable().unique();
         table.date("issue_date").notNullable();
         table.date("due_date");

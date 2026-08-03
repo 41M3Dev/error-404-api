@@ -9,7 +9,7 @@ exports.up = function(knex) {
         table.string("email", 150).notNullable();
         table.string("subject", 150);
         table.text("message").notNullable();
-        table.enum("status", ["nouveau", "lu", "repondu"]).notNullable().defaultTo("nouveau");
+        table.enum("status", ["new", "read", "replied"]).notNullable().defaultTo("new");
         table.dateTime("created_at").notNullable().defaultTo(knex.fn.now());
     });
 };
